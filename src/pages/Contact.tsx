@@ -7,7 +7,9 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Visit Us",
-    details: ["2nd Floor, 12, Rajiv Gandhi Salai, Srinivasa Nagar, Kandhanchavadi, Perungudi, Chennai, Tamil Nadu 600096"],
+    details: [
+      "2nd Floor, 12, Rajiv Gandhi Salai, Srinivasa Nagar, Kandhanchavadi, Perungudi, Chennai, Tamil Nadu 600096",
+    ],
   },
   {
     icon: Phone,
@@ -26,18 +28,9 @@ const contactInfo = [
   },
 ];
 
-const services = [
-  "Study Abroad Consultation",
-  "MBBS Abroad",
-  "IELTS Coaching",
-  "PTE Coaching",
-  "TOEFL Coaching",
-  "Visa Assistance",
-  "Other",
-];
-
 const Contact = () => {
   const { toast } = useToast();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -47,24 +40,51 @@ const Contact = () => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ CONNECTED TO FORMSPREE (ONLY CHANGE)
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for contacting us. We'll get back to you within 24 hours.",
-    });
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      service: "",
-      message: "",
-    });
+
+    try {
+      const response = await fetch("https://formspree.io/f/mreeqypb", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message Sent!",
+          description:
+            "Thank you for contacting us. We'll get back to you within 24 hours.",
+        });
+
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          service: "",
+          message: "",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Network Error",
+        description: "Please check your internet connection.",
+      });
+    }
   };
 
   return (
@@ -81,7 +101,8 @@ const Contact = () => {
                 Get in Touch With Us
               </h1>
               <p className="text-xl text-primary-foreground/80">
-                Have questions about studying abroad? Our expert counsellors are here to help you every step of the way.
+                Have questions about studying abroad? Our expert counsellors are
+                here to help you every step of the way.
               </p>
             </div>
           </div>
@@ -120,92 +141,66 @@ const Contact = () => {
                   Book Your Free Consultation
                 </h2>
                 <p className="text-muted-foreground mb-8">
-                  Fill out the form below and our expert counsellors will get back to you within 24 hours.
+                  Fill out the form below and our expert counsellors will get back
+                  to you within 24 hours.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                        placeholder="john@example.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                        placeholder="+1 234 567 890"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Service Interested In *
-                      </label>
-                      <select
-                        name="service"
-                        value={formData.service}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                      >
-                        <option value="">Select a service</option>
-                        {services.map((service) => (
-                          <option key={service} value={service}>
-                            {service}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Message
-                    </label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
                       onChange={handleChange}
-                      rows={5}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
-                      placeholder="Tell us about your goals and how we can help..."
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-border"
+                      placeholder="Full Name"
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-border"
+                      placeholder="Email Address"
                     />
                   </div>
 
-                  <button type="submit" className="btn-hero flex items-center gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-border"
+                      placeholder="Phone Number"
+                    />
+                    <input
+                      type="text"
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-border"
+                      placeholder="Service Interested In"
+                    />
+                  </div>
+
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-lg border border-border resize-none"
+                    placeholder="Your Message"
+                  />
+
+                  <button
+                    type="submit"
+                    className="btn-hero flex items-center gap-2"
+                  >
                     <Send className="w-5 h-5" />
                     Send Message
                   </button>
@@ -213,25 +208,15 @@ const Contact = () => {
               </div>
 
               {/* Map */}
-              <div>
-                <h2 className="font-display text-3xl font-bold text-foreground mb-6">
-                  Our Location
-                </h2>
-                <p className="text-muted-foreground mb-8">
-                  Visit our office for a face-to-face consultation with our expert counsellors.
-                </p>
-                <div className="rounded-2xl overflow-hidden h-[500px] bg-secondary">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0331749280313!2d80.24854399999998!3d12.969729000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525d6c837857cf%3A0xa4c6190d9941ab1e!2s2nd%20Floor%2C%2012%2C%20Rajiv%20Gandhi%20Salai%2C%20Srinivasa%20Nagar%2C%20Kandhanchavadi%2C%20Perungudi%2C%20Chennai%2C%20Tamil%20Nadu%20600096!5e0!3m2!1sen!2sin!4v1768267536389!5m2!1sen!2sin"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Office Location"
-                  />
-                </div>
+              <div className="rounded-2xl overflow-hidden h-[500px] bg-secondary">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0331749280313!2d80.248544!3d12.969729!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525d6c837857cf%3A0xa4c6190d9941ab1e!2s2nd%20Floor%2C%2012%2C%20Rajiv%20Gandhi%20Salai%2C%20Srinivasa%20Nagar%2C%20Kandhanchavadi%2C%20Perungudi%2C%20Chennai%2C%20Tamil%20Nadu%20600096!5e0!3m2!1sen!2sin!4v1768858262338!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  title="Office Location"
+                />
               </div>
             </div>
           </div>

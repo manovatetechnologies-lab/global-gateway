@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
-import { GraduationCap, Building, DollarSign, Briefcase } from "lucide-react";
+import { GraduationCap, Building, Briefcase } from "lucide-react";
 import countryUSA from "@/assets/country-usa.jpg";
 import countryUK from "@/assets/country-uk.jpg";
 import countryCanada from "@/assets/country-canada.jpg";
@@ -14,7 +14,7 @@ const countries = [
     image: countryUSA,
     description: "Home to world-renowned universities like MIT, Harvard, and Stanford. The USA offers cutting-edge research opportunities and diverse cultural experiences.",
     universities: "4,000+",
-    avgCost: "$20,000 - $50,000/year",
+    
     workOpportunity: "OPT for up to 3 years",
     topCourses: ["Computer Science", "Business", "Engineering", "Medicine"],
   },
@@ -24,7 +24,7 @@ const countries = [
     image: countryUK,
     description: "Study at prestigious institutions like Oxford, Cambridge, and Imperial College. UK offers shorter course durations and rich cultural heritage.",
     universities: "150+",
-    avgCost: "£15,000 - £35,000/year",
+   
     workOpportunity: "2-year Post-Study Work Visa",
     topCourses: ["Law", "Finance", "Arts", "Sciences"],
   },
@@ -34,7 +34,7 @@ const countries = [
     image: countryCanada,
     description: "Known for its welcoming immigration policies and high quality of life. Canadian universities offer excellent education at affordable costs.",
     universities: "100+",
-    avgCost: "CAD 15,000 - 35,000/year",
+   
     workOpportunity: "3-year PGWP",
     topCourses: ["IT", "Healthcare", "Business", "Engineering"],
   },
@@ -44,7 +44,7 @@ const countries = [
     image: countryAustralia,
     description: "A popular destination with world-class universities and excellent post-study work opportunities. Enjoy a great lifestyle while you study.",
     universities: "40+",
-    avgCost: "AUD 20,000 - 45,000/year",
+   
     workOpportunity: "2-4 year Post-Study Work Visa",
     topCourses: ["Nursing", "IT", "Hospitality", "Business"],
   },
@@ -54,7 +54,7 @@ const countries = [
     image: countryEurope,
     description: "Explore diverse cultures and languages while studying in Germany, France, Ireland, and more. Many countries offer low or no tuition fees.",
     universities: "500+",
-    avgCost: "€0 - €20,000/year",
+    
     workOpportunity: "Varies by country",
     topCourses: ["Engineering", "Arts", "Sciences", "Business"],
   },
@@ -131,13 +131,7 @@ const StudyAbroad = () => {
                           <p className="text-sm text-muted-foreground">Universities</p>
                         </div>
                       </div>
-                      <div className="flex items-start gap-3">
-                        <DollarSign className="w-6 h-6 text-accent flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-foreground">{country.avgCost}</p>
-                          <p className="text-sm text-muted-foreground">Average Cost</p>
-                        </div>
-                      </div>
+                      
                       <div className="flex items-start gap-3">
                         <Briefcase className="w-6 h-6 text-accent flex-shrink-0" />
                         <div>

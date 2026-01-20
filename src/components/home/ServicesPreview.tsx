@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { GraduationCap, Stethoscope, Languages, Plane } from "lucide-react";
+import { GraduationCap, Stethoscope, Plane } from "lucide-react";
 
 const services = [
   {
@@ -14,12 +14,14 @@ const services = [
     description: "Affordable medical education in MCI recognized universities with complete admission support.",
     link: "/mbbs-abroad",
   },
-  {
-    icon: Languages,
-    title: "Language Training",
-    description: "Comprehensive coaching for IELTS, PTE, TOEFL, and other English proficiency tests.",
-    link: "/language-training",
-  },
+{
+  icon: GraduationCap,
+  title: "Courses Abroad",
+  description:
+    "Explore Bachelor's, Master's, PhD, Diploma, and Professional Certification programs at globally recognized universities abroad.",
+  link: "/courses",
+},
+
   {
     icon: Plane,
     title: "Visa Assistance",

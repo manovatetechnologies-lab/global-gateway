@@ -1,41 +1,195 @@
 import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
 import { Stethoscope, GraduationCap, DollarSign, CheckCircle, Globe, Clock } from "lucide-react";
+import { useState } from "react";
+
+const topUniversities: Record<string, string[]> = {
+  russia: [
+    "Sechenov University",
+    "Pirogov Russian National Research Medical University",
+    "Kazan Federal University",
+    "Peoples’ Friendship University of Russia (RUDN)",
+    "Crimea Federal University",
+    "Bashkir State Medical University",
+    "Orenburg State Medical University",
+    "Kursk State Medical University",
+    "Tver State Medical University",
+    "Smolensk State Medical University",
+  ],
+  georgia: [
+    "Tbilisi State Medical University",
+    "David Tvildiani Medical University",
+    "European University, Tbilisi",
+    "New Vision University",
+    "Batumi Shota Rustaveli State University",
+    "Caucasus International University",
+  ],
+  philippines: [
+    "University of Perpetual Help System",
+    "Our Lady of Fatima University",
+    "AMA School of Medicine",
+    "Davao Medical School Foundation",
+    "UV Gullas College of Medicine",
+    "University of Cebu College of Medicine",
+  ],
+  kazakhstan: [
+    "Kazakh National Medical University",
+    "Al-Farabi Kazakh National University",
+    "Astana Medical University",
+    "South Kazakhstan Medical Academy",
+    "Semey Medical University",
+    "Karaganda State Medical University",
+  ],
+  uzbekistan: [
+    "Tashkent Medical Academy",
+    "Samarkand State Medical University",
+    "Bukhara State Medical Institute",
+    "Andijan State Medical Institute",
+    "Fergana State Medical Institute",
+  ],
+  kyrgyzstan: [
+    "Osh State University",
+    "International School of Medicine (ISM)",
+    "Kyrgyz State Medical Academy",
+    "Jalal-Abad State University",
+    "Asian Medical Institute",
+  ],
+  armenia: [
+    "Yerevan State Medical University",
+    "Armenian Medical Institute",
+    "St. Tereza Medical University",
+  ],
+  azerbaijan: [
+    "Azerbaijan Medical University",
+    "Nakhchivan State University (Medical Faculty)",
+  ],
+  poland: [
+    "Medical University of Warsaw",
+    "Jagiellonian University Medical College",
+    "Medical University of Lodz",
+    "Poznan University of Medical Sciences",
+    "Medical University of Gdansk",
+  ],
+  romania: [
+    "Carol Davila University of Medicine and Pharmacy",
+    "Iuliu Hatieganu University of Medicine and Pharmacy",
+    "Grigore T. Popa University of Medicine and Pharmacy",
+    "Victor Babes University of Medicine and Pharmacy",
+    "University of Medicine and Pharmacy of Craiova",
+  ],
+  hungary: [
+    "Semmelweis University",
+    "University of Szeged",
+    "University of Debrecen",
+    "University of Pécs",
+  ],
+  bulgaria: [
+    "Medical University of Sofia",
+    "Medical University of Plovdiv",
+    "Medical University of Varna",
+    "Medical University of Pleven",
+  ],
+};
 
 const countries = [
   {
     id: "russia",
     name: "Russia",
     duration: "6 years",
-    fees: "$3,000 - $8,000/year",
-    recognition: "MCI, WHO, UNESCO",
+    
+    recognition: "NMC (MCI), WHO, UNESCO",
     features: ["No entrance exam", "English medium", "Low cost of living"],
   },
   {
     id: "georgia",
     name: "Georgia",
     duration: "6 years",
-    fees: "$4,000 - $8,000/year",
-    recognition: "MCI, WHO",
-    features: ["USMLE coaching", "Modern facilities", "Safe environment"],
+    
+    recognition: "NMC (MCI), WHO",
+    features: ["USMLE coaching", "Modern universities", "Safe environment"],
   },
   {
     id: "philippines",
     name: "Philippines",
     duration: "5.5 years",
-    fees: "$3,500 - $6,000/year",
-    recognition: "MCI, WHO, CHED",
+    
+    recognition: "NMC (MCI), WHO, CHED",
     features: ["English medium", "US-based curriculum", "Clinical rotations"],
   },
   {
     id: "kazakhstan",
     name: "Kazakhstan",
     duration: "5 years",
-    fees: "$3,000 - $5,000/year",
-    recognition: "MCI, WHO",
+   
+    recognition: "NMC (MCI), WHO",
     features: ["Affordable fees", "Quality education", "Growing medical hub"],
   },
+  {
+    id: "uzbekistan",
+    name: "Uzbekistan",
+    duration: "6 years",
+   
+    recognition: "NMC (MCI), WHO",
+    features: ["Modern infrastructure", "English medium", "Affordable living"],
+  },
+  {
+    id: "kyrgyzstan",
+    name: "Kyrgyzstan",
+    duration: "6 years",
+    
+    recognition: "NMC (MCI), WHO",
+    features: ["Low tuition fees", "Indian food available", "Safe campuses"],
+  },
+  {
+    id: "armenia",
+    name: "Armenia",
+    duration: "6 years",
+    
+    recognition: "NMC (MCI), WHO",
+    features: ["European education", "English medium", "High academic standards"],
+  },
+  {
+    id: "azerbaijan",
+    name: "Azerbaijan",
+    duration: "6 years",
+    
+    recognition: "NMC (MCI), WHO",
+    features: ["Good faculty", "Modern labs", "Affordable living"],
+  },
+  {
+    id: "poland",
+    name: "Poland",
+    duration: "6 years",
+    
+    recognition: "NMC (MCI), WHO, EU",
+    features: ["EU degree", "High clinical exposure", "English-taught programs"],
+  },
+  {
+    id: "romania",
+    name: "Romania",
+    duration: "6 years",
+    
+    recognition: "NMC (MCI), WHO, EU",
+    features: ["EU medical degree", "Modern hospitals", "English programs"],
+  },
+  {
+    id: "hungary",
+    name: "Hungary",
+    duration: "6 years",
+    
+    recognition: "NMC (MCI), WHO, EU",
+    features: ["Top EU universities", "Strong research", "Global recognition"],
+  },
+  {
+    id: "bulgaria",
+    name: "Bulgaria",
+    duration: "6 years",
+    
+    recognition: "NMC (MCI), WHO, EU",
+    features: ["EU medical degree", "Affordable Europe option", "English medium"],
+  },
 ];
+
 
 const eligibility = [
   "Minimum 50% in 10+2 with Physics, Chemistry, Biology",
@@ -69,6 +223,8 @@ const benefits = [
 ];
 
 const MBBSAbroad = () => {
+  const [openUniversity, setOpenUniversity] = useState<string | null>(null);
+
   return (
     <Layout>
       <div className="page-transition">
@@ -149,10 +305,7 @@ const MBBSAbroad = () => {
                       <p className="text-sm text-muted-foreground">Duration</p>
                       <p className="font-semibold text-foreground">{country.duration}</p>
                     </div>
-                    <div className="p-4 bg-secondary rounded-lg">
-                      <p className="text-sm text-muted-foreground">Tuition Fees</p>
-                      <p className="font-semibold text-foreground">{country.fees}</p>
-                    </div>
+                    
                   </div>
 
                   <div className="space-y-2">
@@ -163,6 +316,34 @@ const MBBSAbroad = () => {
                       </div>
                     ))}
                   </div>
+
+                  {/* Top Universities */}
+<div className="mt-6">
+  <button
+    onClick={() =>
+      setOpenUniversity(
+        openUniversity === country.id ? null : country.id
+      )
+    }
+    className="text-primary font-semibold text-sm hover:underline"
+  >
+    {openUniversity === country.id
+      ? "Hide Top Universities"
+      : "View Top Universities"}
+  </button>
+
+  {openUniversity === country.id && (
+    <ul className="mt-4 space-y-2">
+      {topUniversities[country.id]?.map((uni, idx) => (
+        <li key={idx} className="flex items-start gap-2">
+          <CheckCircle className="w-4 h-4 text-accent mt-1" />
+          <span className="text-foreground text-sm">{uni}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
 
                   <Link
                     to="/contact"

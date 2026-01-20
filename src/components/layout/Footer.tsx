@@ -52,7 +52,7 @@ const Footer = () => {
                 <Link to="/mbbs-abroad" className="text-primary-foreground/80 hover:text-accent transition-colors">MBBS Abroad</Link>
               </li>
               <li>
-                <Link to="/language-training" className="text-primary-foreground/80 hover:text-accent transition-colors">Language Training</Link>
+                <Link to="/courses" className="text-primary-foreground/80 hover:text-accent transition-colors">Courses offered</Link>
               </li>
               <li>
                 <Link to="/contact" className="text-primary-foreground/80 hover:text-accent transition-colors">Contact Us</Link>

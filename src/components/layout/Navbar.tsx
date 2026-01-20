@@ -1,6 +1,11 @@
+
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, Phone, Menu, X } from "lucide-react";
+const hideScrollbarStyle: React.CSSProperties = {
+  msOverflowStyle: "none",
+};
 
 interface DropdownItem {
   label: string;
@@ -12,6 +17,16 @@ interface NavItem {
   href: string;
   dropdown?: DropdownItem[];
 }
+const dropdownStyle: React.CSSProperties = {
+  maxHeight: "280px",              // 👈 smaller = premium
+  overflowY: "auto",
+  background: "#ffffff",
+  borderRadius: "12px",
+  boxShadow: "0 16px 32px rgba(0,0,0,0.12)",
+  padding: "6px 0",
+  scrollbarWidth: "none",          // Firefox hide scrollbar
+};
+
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
@@ -27,25 +42,37 @@ const navItems: NavItem[] = [
       { label: "Study in Europe", href: "/study-abroad#europe" },
     ],
   },
+ {
+  label: "MBBS Abroad",
+  href: "/mbbs-abroad",
+  dropdown: [
+    { label: "MBBS in Russia", href: "/mbbs-abroad#russia" },
+    { label: "MBBS in Georgia", href: "/mbbs-abroad#georgia" },
+    { label: "MBBS in Philippines", href: "/mbbs-abroad#philippines" },
+    { label: "MBBS in Kazakhstan", href: "/mbbs-abroad#kazakhstan" },
+    { label: "MBBS in Uzbekistan", href: "/mbbs-abroad#uzbekistan" },
+    { label: "MBBS in Kyrgyzstan", href: "/mbbs-abroad#kyrgyzstan" },
+    { label: "MBBS in Armenia", href: "/mbbs-abroad#armenia" },
+    { label: "MBBS in Azerbaijan", href: "/mbbs-abroad#azerbaijan" },
+    { label: "MBBS in Poland", href: "/mbbs-abroad#poland" },
+    { label: "MBBS in Romania", href: "/mbbs-abroad#romania" },
+    { label: "MBBS in Hungary", href: "/mbbs-abroad#hungary" },
+    { label: "MBBS in Bulgaria", href: "/mbbs-abroad#bulgaria" }
+  ],
+},
+
   {
-    label: "MBBS Abroad",
-    href: "/mbbs-abroad",
-    dropdown: [
-      { label: "MBBS in Russia", href: "/mbbs-abroad#russia" },
-      { label: "MBBS in Georgia", href: "/mbbs-abroad#georgia" },
-      { label: "MBBS in Philippines", href: "/mbbs-abroad#philippines" },
-      { label: "MBBS in Kazakhstan", href: "/mbbs-abroad#kazakhstan" },
-    ],
-  },
-  {
-    label: "Language Training",
-    href: "/language-training",
-    dropdown: [
-      { label: "IELTS Coaching", href: "/language-training#ielts" },
-      { label: "PTE Coaching", href: "/language-training#pte" },
-      { label: "TOEFL Coaching", href: "/language-training#toefl" },
-    ],
-  },
+  label: "Courses",
+  href: "/courses",
+  dropdown: [
+    { label: "Bachelor’s Programs", href: "/courses/bachelors" },
+    { label: "Master’s Programs", href: "/courses/masters" },
+    { label: "PhD / Doctorate", href: "/courses/phd" },
+    { label: "Diploma & PG Diploma", href: "/courses/diploma" },
+    { label: "Professional Certifications", href: "/courses/certifications" },
+  ],
+},
+
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -80,10 +107,10 @@ const Navbar = () => {
          {/* Logo */}
 <Link to="/" className="flex items-center gap-3">
   <img
-    src="/logo.png"
-    alt="Global Education"
-    className="h-16 w-auto object-contain"
-  />
+  src="/logo.png"
+  alt="Global Education"
+  className="h-16 w-auto object-contain scale-[1.7] -my-6 origin-left"
+/>
 
   
 </Link>
@@ -109,11 +136,13 @@ const Navbar = () => {
                 </Link>
 
                 {item.dropdown && (
-                  <div
-                    className={`dropdown-menu ${
-                      activeDropdown === item.label ? "active" : ""
-                    }`}
-                  >
+                 <div
+  className={`dropdown-menu ${
+    activeDropdown === item.label ? "active" : ""
+  }`}
+  style={{ ...dropdownStyle, ...hideScrollbarStyle }}
+>
+
                     {item.dropdown.map((dropItem) => (
                       <Link
                         key={dropItem.label}
@@ -165,13 +194,27 @@ const Navbar = () => {
                 {item.dropdown && (
                   <div className="pl-4 mt-1 space-y-1">
                     {item.dropdown.map((dropItem) => (
-                      <Link
-                        key={dropItem.label}
-                        to={dropItem.href}
-                        className="block py-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
-                      >
-                        {dropItem.label}
-                      </Link>
+                     <Link
+  key={dropItem.label}
+  to={dropItem.href}
+  className="dropdown-item"
+  style={{
+    padding: "8px 18px",
+    fontSize: "14px",
+    lineHeight: "1.4",
+    background:
+      location.hash === dropItem.href.split("#")[1]
+        ? "#f4f7fb"
+        : "transparent",
+    fontWeight:
+      location.hash === dropItem.href.split("#")[1]
+        ? 600
+        : 400,
+  }}
+>
+  {dropItem.label}
+</Link>
+
                     ))}
                   </div>
                 )}

@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, GraduationCap, Users, Award, Globe } from "l
 import heroStudyAbroad from "@/assets/hero-study-abroad.jpg";
 import heroMbbs from "@/assets/hero-mbbs.jpg";
 import heroLanguage from "@/assets/hero-language.jpg";
+import { link } from "fs/promises";
 
 interface Slide {
   id: number;
@@ -41,7 +42,7 @@ const slides: Slide[] = [
     description: "Expert coaching for IELTS, PTE & TOEFL with proven success rates.",
     image: heroLanguage,
     badge: "IELTS • PTE • TOEFL",
-    link: "/language-training",
+    link: "/courses",
   },
 ];
 
